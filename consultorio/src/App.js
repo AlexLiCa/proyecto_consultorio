@@ -6,26 +6,18 @@ import "react-datepicker/dist/react-datepicker.css";
 function App() {
 
   const[selected, setDate] = useState(new Date());
+  const[citas, agregarCita] = useState([]);
+
+  const today = new Date();
   const min = new Date();
   const max = new Date();
-
   min.setHours(7);
   max.setHours(20);
 
 
-
-  // Cambiar esta funcion para checar los tiempos que ya estan ocupados para filtrarlos 
-  const filterPassedTime = (time) => {
-    const currentDate = new Date();
-    const selectedDate = new Date(time);
-
-
-    return currentDate.getTime() < selectedDate.getTime();
-  };
-
-    useEffect(() => {     
-    console.log(selected)
-    }, [selected])
+  useEffect(() => {     
+    console.log(citas)
+  }, [citas])
 
   return (
     <div className="bg">
@@ -45,10 +37,16 @@ function App() {
                           showTimeSelect
                           minTime={min}
                           maxTime={max}
+                          startDate={today}
+                          minDate={today}
+                          excludeTimes= {citas}
                           dateFormat="MM/dd/yyyy h:mm"
                           //filterTime={filterPassedTime}
                         />
-                      </div>                      
+                      </div>
+                      <button className="btn-1" onClick={()=> agregarCita([...citas, selected])}>
+                          Hacer cita 
+                      </button>              
                     </div> 
                   <div className="row">
                       <div className="card">
