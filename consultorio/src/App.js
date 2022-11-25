@@ -74,7 +74,7 @@ function App() {
                           startDate={today}
                           minDate={today}
                           excludeTimes= {excludeTimes()}
-                          dateFormat="MM/dd/yyyy h:mm"
+                          dateFormat="dd/MM/yyyy h:mm"
                           filterTime={filterPassedTime}
                           customInput={<ExampleCustomInput />}
                         />
