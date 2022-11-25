@@ -7,6 +7,7 @@ function App() {
 
   const[selected, setDate] = useState(new Date());
   const[citas, agregarCita] = useState([]);
+  const[doctor, setDoctor] = useState("Cardiologo");
 
   const today = new Date();
   const min = new Date();
@@ -57,8 +58,8 @@ function App() {
     <div className="bg">
       <div className="body">
             <div className="container">
-              <div className="card">
-                  <h1>Ajendar una cita</h1>
+              <div className="card-title">
+                  <h1>Agendar una cita</h1>
               </div>
             </div>
               <div className="container-white">
@@ -91,6 +92,17 @@ function App() {
                         </div>
                     </div>
                   <div className="row">  
+                        <div class="dropdown">
+                          <button class="dropbtn">{doctor}</button>
+                          <div class="dropdown-content">
+                          <a  onClick={()=> setDoctor("Cardiologo")}>Cardiologo</a>
+                          <a  onClick={()=> setDoctor("Alergólogo")}>Alergólogo </a>
+                          <a  onClick={()=> setDoctor("Gastroenterólogo")}>Gastroenterólogo</a>
+                          <a  onClick={()=> setDoctor("Hematólogo")}>Hematólogo</a>
+                          <a  onClick={()=> setDoctor("Hepatólogo")}>Hepatólogo</a>
+                          <a  onClick={()=> setDoctor("Nefrólogo")}>Nefrólogo</a>
+                        </div>
+                        </div>
                         <div className="card">
                         <label for="inp" className="inp">
                           <input type="tel" id="inp" placeholder="Telefono"></input>
