@@ -15,9 +15,43 @@ function App() {
   max.setHours(20);
 
 
-  useEffect(() => {     
-    console.log(citas)
-  }, [citas])
+  const ExampleCustomInput = ({ value, onClick }, ref) => (
+    <button className="btn-1"  onClick={onClick}>
+        {value}
+    </button>
+  );
+
+  const excludeTimes = () => {
+  let citasDia = [];
+    for (let i = 0; i < citas.length; i++) {  
+      // console.log("Cantidad de citas del dia: ",citasDia[i].getTime());
+      // console.log("Dia seleccionado: ",selected.getDate());
+      if (citas[i].getDate() === selected.getDate()){
+        citasDia.push(citas[i]);
+        // console.log("Dia en citas:",citas[i].getDate());
+        // console.log("Dia seleccionado:",selected.getDate());
+        // console.log("Citas Hoy:", citasDia);
+        // console.log("Todas las citas", citas)
+      }
+      else if (citasDia.length === 0){
+        citasDia = [];
+        // console.log("citas:", {citas} )
+        // console.log("Citas hoy",citasDia);
+        // console.log("Todas las citas", citas)
+      }
+    }    return citasDia;
+  };
+
+  const filterPassedTime = (time) => {
+    const currentDate = new Date();
+    const selectedDate = new Date(time);
+
+    return currentDate.getTime() < selectedDate.getTime();
+  };
+
+  useEffect(() => { 
+    excludeTimes()
+  })
 
   return (
     <div className="bg">
@@ -29,7 +63,6 @@ function App() {
             </div>
               <div className="container-white">
                   <div className="row">
-                      <div className="card">
                         <Datepicker 
                           selected={selected} 
                           onChange={ date => setDate(date) }
@@ -39,23 +72,44 @@ function App() {
                           maxTime={max}
                           startDate={today}
                           minDate={today}
-                          excludeTimes= {citas}
+                          excludeTimes= {excludeTimes()}
                           dateFormat="MM/dd/yyyy h:mm"
-                          //filterTime={filterPassedTime}
+                          filterTime={filterPassedTime}
+                          customInput={<ExampleCustomInput />}
                         />
-                      </div>
-                      <button className="btn-1" onClick={()=> agregarCita([...citas, selected])}>
-                          Hacer cita 
-                      </button>              
-                    </div> 
-                  <div className="row">
                       <div className="card">
-                        <h1>Aqui iria el formulario</h1>
-                      </div>                               
-                  </div>
+                        <label for="inp" className="inp">
+                          <input type="text" id="inp" placeholder="Nombre"></input>
+                          <span className="focus-bg"></span>
+                        </label>
+                        </div>
+                        <div className="card">
+                        <label for="inp" className="inp">
+                          <input type="email" id="inp" placeholder="Correo Electronico"></input>
+                          <span className="focus-bg"></span>
+                        </label>
+                        </div>
+                    </div>
+                  <div className="row">  
+                        <div className="card">
+                        <label for="inp" className="inp">
+                          <input type="tel" id="inp" placeholder="Telefono"></input>
+                          <span className="focus-bg"></span>
+                        </label>
+                        </div>
+                        <div className="card">
+                        <label for="inp" className="inp">
+                          <input type="text" id="inp" placeholder="Descripcion del problema"></input>
+                          <span className="focus-bg"></span>
+                        </label>
+                        </div>                             
+                  </div>  
+                  <button className="btn-1" onClick={()=> agregarCita([...citas, selected])}>
+                          Hacer cita 
+                      </button>   
               </div>
-              </div>
-        </div>
+      </div>
+    </div>
 
   );
 }
