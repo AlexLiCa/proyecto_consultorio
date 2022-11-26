@@ -170,6 +170,9 @@ body {
 
 .btn-2:disabled {
   pointer-events: none;
+  background-color: transparent;
+  color: transparent;
+  font-weight: 0;
 }
 
 .btn-2:hover {

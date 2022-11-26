@@ -67,6 +67,15 @@ const FormularioCita = () => {
     }
   };
 
+  const valida_datos = () => {
+    if(nombre === "" || correo === "" || numero === "" || problema === ""){
+        return false;
+    }
+    else {
+        return true;
+    }
+  }
+
   return (
     <>
       <div className="container">
@@ -160,12 +169,20 @@ const FormularioCita = () => {
         </div>
       </div>
       <div className="container-r">
+      {valida_datos() === true ?(
         <button
           className="btn-2"
-          onClick={() => agregarCita([...citas, selected])}
-        >
+          onClick={() => agregarCita([...citas, selected])}>
           Hacer cita
         </button>
+      ) : (
+        <button
+          className="btn-2" disabled
+          onClick={() => agregarCita([...citas, selected])}>
+          Hacer cita
+        </button>
+      )}
+
       </div>
     </>
   );
