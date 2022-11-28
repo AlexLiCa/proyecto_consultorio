@@ -63,12 +63,12 @@ const FormularioCita = ({ setAgendarCita, citas, agregarCita }) => {
       //   console.log("Numero:", numero);
     }
     if (e.target.name === "numeroTarjeta") {
-      console.log("Numero de tarjeta: ", numeroTarjeta);
+      //console.log("Numero de tarjeta: ", numeroTarjeta);
       setNumeroTarjeta(e.target.value);
     }
     if (e.target.name === "fechaTarjeta") {
       setFechaTarjeta(e.target.value);
-      console.log("Fecha", fechaTarjeta);
+      //console.log("Fecha", fechaTarjeta);
     }
     if (e.target.name === "cvv") {
       setCvv(e.target.value);
@@ -239,7 +239,7 @@ const FormularioCita = ({ setAgendarCita, citas, agregarCita }) => {
       </div>
       <div className="container-r">
         {doctor === "Estudio necesario" ? (<></>) : 
-        (<div className="card">Costo: $500</div>)}
+        (<div className="card-right">Costo: $500</div>)}
         {valida_datos() === true ? (
           <button className="btn-2" onClick={() => agendar_cita()}>
             Hacer cita
