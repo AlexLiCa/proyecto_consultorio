@@ -16,7 +16,7 @@ const FormularioCita = ({ setAgendarCita, citas, agregarCita }) => {
 
   const today = new Date();
   const min = new Date();
-  const max = new Date();
+  const max = new Date(new Date().setDate(today.getDate() + 29));
   min.setHours(7);
   max.setHours(20);
 
@@ -85,15 +85,13 @@ const FormularioCita = ({ setAgendarCita, citas, agregarCita }) => {
       selected.getHours() === today.getHours()
     ) {
       return false;
-    }
-     else {
-      if (pago === "En linea"){
-        if(numeroTarjeta === "" || fechaTarjeta === "" || cvv === ""){
+    } else {
+      if (pago === "En linea") {
+        if (numeroTarjeta === "" || fechaTarjeta === "" || cvv === "") {
           return false;
         }
         return true;
-      }
-      else{
+      } else {
         return true;
       }
     }
@@ -106,6 +104,10 @@ const FormularioCita = ({ setAgendarCita, citas, agregarCita }) => {
 
   return (
     <>
+      <div class="topnav">
+        <a onClick={() => setAgendarCita(false)}>Inicio </a>
+        <a className="active">Agendar Cita</a>
+      </div>
       <div className="container">
         <div className="card-title">
           <h1>Agendar una cita</h1>
@@ -121,6 +123,7 @@ const FormularioCita = ({ setAgendarCita, citas, agregarCita }) => {
             minTime={min}
             maxTime={max}
             minDate={today}
+            maxDate={max}
             excludeTimes={excludeTimes()}
             dateFormat="dd/MM/yyyy h:mm"
             filterTime={filterPassedTime}
@@ -231,15 +234,18 @@ const FormularioCita = ({ setAgendarCita, citas, agregarCita }) => {
                   <span className="focus-bg"></span>
                 </label>
               </div>
-          </div>
-          ):(
+            </div>
+          ) : (
             <></>
           )}
         </div>
       </div>
       <div className="container-r">
-        {doctor === "Estudio necesario" ? (<></>) : 
-        (<div className="card-right">Costo: $500</div>)}
+        {doctor === "Estudio necesario" ? (
+          <></>
+        ) : (
+          <div className="card-right">Costo: $500</div>
+        )}
         {valida_datos() === true ? (
           <button className="btn-2" onClick={() => agendar_cita()}>
             Hacer cita
