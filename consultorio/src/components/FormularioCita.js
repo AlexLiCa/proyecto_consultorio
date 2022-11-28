@@ -5,11 +5,14 @@ import "react-datepicker/dist/react-datepicker.css";
 
 const FormularioCita = ({ setAgendarCita, citas, agregarCita }) => {
   const [selected, setDate] = useState(new Date());
-  const [doctor, setDoctor] = useState("Especialista necesario");
+  const [doctor, setDoctor] = useState("Estudio necesario");
   const [nombre, setNombre] = useState("");
   const [correo, setCorreo] = useState("");
   const [numero, setNumero] = useState("");
-  const [pago, setPago] = useState("Metodo de pago");
+  const [numeroTarjeta, setNumeroTarjeta] = useState("");
+  const [fechaTarjeta, setFechaTarjeta] = useState("");
+  const [cvv, setCvv] = useState("");
+  const [pago, setPago] = useState("Tipo de Pago");
 
   const today = new Date();
   const min = new Date();
@@ -17,9 +20,9 @@ const FormularioCita = ({ setAgendarCita, citas, agregarCita }) => {
   min.setHours(7);
   max.setHours(20);
 
-  const ExampleCustomInput = ({ value, onClick }) => (
+  const ExampleCustomInput = ({ onClick, value }) => (
     <button className="btn-1" onClick={onClick}>
-      {value}
+      {selected === new Date() ? "Seleccionar fecha" : value}
     </button>
   );
 
@@ -59,8 +62,16 @@ const FormularioCita = ({ setAgendarCita, citas, agregarCita }) => {
       setNumero(e.target.value);
       //   console.log("Numero:", numero);
     }
-    if (e.target.name === "pago") {
-      //   console.log("Problema: ", problema);
+    if (e.target.name === "numeroTarjeta") {
+      console.log("Numero de tarjeta: ", numeroTarjeta);
+      setNumeroTarjeta(e.target.value);
+    }
+    if (e.target.name === "fechaTarjeta") {
+      setFechaTarjeta(e.target.value);
+      console.log("Fecha", fechaTarjeta);
+    }
+    if (e.target.name === "cvv") {
+      setCvv(e.target.value);
     }
   };
 
@@ -69,12 +80,22 @@ const FormularioCita = ({ setAgendarCita, citas, agregarCita }) => {
       nombre === "" ||
       correo === "" ||
       numero === "" ||
-      doctor === "Especialista necesario" ||
-      pago === "Metodo de pago"
+      doctor === "Estudio necesario" ||
+      pago === "Tipo de Pago" ||
+      selected.getHours() === today.getHours()
     ) {
       return false;
-    } else {
-      return true;
+    }
+     else {
+      if (pago === "En linea"){
+        if(numeroTarjeta === "" || fechaTarjeta === "" || cvv === ""){
+          return false;
+        }
+        return true;
+      }
+      else{
+        return true;
+      }
     }
   };
 
@@ -122,8 +143,10 @@ const FormularioCita = ({ setAgendarCita, citas, agregarCita }) => {
           <div className="dropdown">
             <button className="dropbtn">{pago}</button>
             <div className="dropdown-content">
-              <a onClick={() => setPago("Efectivo")}>Efectivo</a>
-              <a onClick={() => setPago("Tarjeta")}>Tarjeta</a>
+              <a onClick={() => setPago("En linea")}>En linea </a>
+              <a onClick={() => setPago("En establecimiento")}>
+                En establecimiento
+              </a>
             </div>
           </div>
           <div className="row">
@@ -153,23 +176,70 @@ const FormularioCita = ({ setAgendarCita, citas, agregarCita }) => {
                 <span className="focus-bg"></span>
               </label>
             </div>
+            <div className="card">
+              <label htmlFor="inp" className="inp">
+                <input
+                  type="tel"
+                  id="numero"
+                  name="numero"
+                  placeholder="Telefono"
+                  value={numero}
+                  onChange={onChange}
+                ></input>
+                <span className="focus-bg"></span>
+              </label>
+            </div>
           </div>
-          <div className="card">
-            <label htmlFor="inp" className="inp">
-              <input
-                type="tel"
-                id="numero"
-                name="numero"
-                placeholder="Telefono"
-                value={numero}
-                onChange={onChange}
-              ></input>
-              <span className="focus-bg"></span>
-            </label>
+          {pago === "En linea" ? (
+            <div className="container">
+              <div className="card">
+                <label htmlFor="inp" className="inp">
+                  <input
+                    type="number"
+                    id="numeroTarjeta"
+                    name="numeroTarjeta"
+                    placeholder="Numero de tarjeta"
+                    value={numeroTarjeta}
+                    onChange={onChange}
+                  ></input>
+                  <span className="focus-bg"></span>
+                </label>
+              </div>
+              <div className="card">
+                <label htmlFor="inp" className="inp">
+                  <input
+                    type="date"
+                    id="fechaTarjeta"
+                    name="fechaTarjeta"
+                    placeholder="Fecha de vencimiento"
+                    value={fechaTarjeta}
+                    onChange={onChange}
+                  ></input>
+                  <span className="focus-bg"></span>
+                </label>
+              </div>
+              <div className="card">
+                <label htmlFor="inp" className="inp">
+                  <input
+                    type="number"
+                    id="cvv"
+                    name="cvv"
+                    placeholder="CVV"
+                    value={cvv}
+                    onChange={onChange}
+                  ></input>
+                  <span className="focus-bg"></span>
+                </label>
+              </div>
           </div>
+          ):(
+            <></>
+          )}
         </div>
       </div>
       <div className="container-r">
+        {doctor === "Estudio necesario" ? (<></>) : 
+        (<div className="card">Costo: $500</div>)}
         {valida_datos() === true ? (
           <button className="btn-2" onClick={() => agendar_cita()}>
             Hacer cita
