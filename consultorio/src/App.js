@@ -4,7 +4,7 @@ import FormularioCita from "./components/FormularioCita";
 import Inicio from "./components/Inicio";
 
 function App() {
-  const [agendarCita, setAgendarCita] = useState(true);
+  const [agendarCita, setAgendarCita] = useState(false);
   const [citas, agregarCita] = useState([]);
   
   return (
