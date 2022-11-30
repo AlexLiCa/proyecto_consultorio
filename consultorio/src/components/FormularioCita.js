@@ -100,6 +100,7 @@ const FormularioCita = ({ setAgendarCita, citas, agregarCita }) => {
   const agendar_cita = () => {
     agregarCita([...citas, selected]);
     setAgendarCita(false);
+    alert("Se ha agendado su cita")
   };
 
   return (
